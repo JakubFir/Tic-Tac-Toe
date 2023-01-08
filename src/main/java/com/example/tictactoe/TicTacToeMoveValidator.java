@@ -5,22 +5,24 @@ import java.util.Scanner;
 
 public class TicTacToeMoveValidator {
     int move;
+
     public int getMove() {
         return move;
     }
-    public boolean ValidateMove(){
+
+    public boolean validateMove() {
         Scanner scanner = new Scanner(System.in);
         boolean valid;
-        do{
-            try{
+        do {
+            try {
                 valid = true;
                 move = scanner.nextInt();
-            }catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 System.out.println("Wrong input, try again");
                 scanner.nextLine();
                 valid = false;
             }
-        }while (!valid);
+        } while (!valid);
         return valid;
     }
 }
