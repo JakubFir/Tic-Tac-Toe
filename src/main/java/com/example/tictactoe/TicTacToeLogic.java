@@ -7,25 +7,21 @@ public class TicTacToeLogic {
     TicTacToeData ticTacToeData = new TicTacToeData();
     TicTacToeMenu ticTacToeMenu = new TicTacToeMenu();
     TicTacToeMoveValidator ticTacToeMoveValidator = new TicTacToeMoveValidator();
+    TicTacToeComputerLogic ticTacToeComputerLogic = new TicTacToeComputerLogic();
     private char move;
     private boolean xTurn;
     private boolean oTurn;
+    private boolean playerTurn;
+    private boolean computerTurn;
+
+    private boolean computerMode = false;
     private boolean endGame;
 
-
-    public void gameStart() {
-        ticTacToeMenu.ticTacToeBoard(ticTacToeData.getMovesBoard());
-        randomStart();
-        do {
-            ticTacToeMoveValidator.validateMove();
-            if (!isFieldTaken(ticTacToeMoveValidator.getMove())) {
-                makeMove(ticTacToeMoveValidator.getMove());
-                ticTacToeMenu.ticTacToeBoard(ticTacToeData.getMovesBoard());
-            }
-        } while (!endGame);
+    public void setComputerMode(boolean computerMode) {
+        this.computerMode = computerMode;
     }
 
-    private void randomStart() {
+    public void randomStart() {
         Random rnd = new Random();
         int randomStart = rnd.nextInt(1, 3);
         if (randomStart == 1) {
@@ -36,13 +32,59 @@ public class TicTacToeLogic {
         }
     }
 
+    public void gameStart(boolean computerMode) {
+        ticTacToeMenu.ticTacToeBoard(ticTacToeData.getBoard3x3());
+        if (!computerMode) {
+            randomStart();
+            do {
+                if (!checkIfSomeOneWon(ticTacToeData.getWinningMoves(), ticTacToeData.getMovesOfXPlayer(), ticTacToeData.getMovesOfOPlayer()) && !checkForDraw()) {
+                    ticTacToeMoveValidator.validateMove();
+                    if (!isFieldTaken(ticTacToeMoveValidator.getMove())) {
+                        menageMove(ticTacToeMoveValidator.getMove(), currentMove());
+                        ticTacToeMenu.ticTacToeBoard(ticTacToeData.getBoard3x3());
+                    }
+                }
+            } while (!endGame);
+        } else if (computerMode) {
+            do {
+                if (!checkIfSomeOneWon(ticTacToeData.getWinningMoves(),
+                        ticTacToeData.getMovesOfXPlayer(),
+                        ticTacToeComputerLogic.getComputerMoves())
+                        && !checkForDraw()) {
+                    do {
+                        playerTurn = true;
+                        ticTacToeMoveValidator.validateMove();
+                        if (!isFieldTaken(ticTacToeMoveValidator.getMove())) {
+                            menageMove(ticTacToeMoveValidator.getMove(), 'X');
+                            ticTacToeData.addMoveOfXPlayer(ticTacToeMoveValidator.getMove());
+                            playerTurn = false;
+                        }
+                    } while (playerTurn);
+                }
+                if (!checkIfSomeOneWon(ticTacToeData.getWinningMoves(),
+                        ticTacToeData.getMovesOfXPlayer(),
+                        ticTacToeComputerLogic.getComputerMoves())
+                        && !checkForDraw()) {
+                    do {
+                        computerTurn = true;
+                        ticTacToeComputerLogic.computerMove(ticTacToeData.getMovesOfXPlayer());
+                        menageMove(ticTacToeComputerLogic.getComputerMove(), 'O');
+                        ticTacToeComputerLogic.addComputerMove(ticTacToeComputerLogic.getComputerMove());
+                        computerTurn = false;
+
+                    } while (computerTurn);
+                }
+                ticTacToeMenu.ticTacToeBoard(ticTacToeData.getBoard3x3());
+            } while (!endGame);
+        }
+    }
+
     private char currentMove() {
         if (xTurn) {
             move = 'X';
             xTurn = false;
             oTurn = true;
             ticTacToeData.addMoveOfXPlayer(ticTacToeMoveValidator.getMove());
-            checkIfSomeOneWon(ticTacToeData.getWinningMoves(), ticTacToeData.getMovesOfXPlayer());
             return 'X';
 
         } else if (oTurn) {
@@ -50,41 +92,70 @@ public class TicTacToeLogic {
             oTurn = false;
             xTurn = true;
             ticTacToeData.addMoveOfOPlayer(ticTacToeMoveValidator.getMove());
-            checkIfSomeOneWon(ticTacToeData.getWinningMoves(), ticTacToeData.getMovesOfOPlayer());
             return 'O';
         }
         return move;
     }
 
-    private void makeMove(int move) {
-        switch (move) {
-            case 1 -> ticTacToeData.setMove(0, 0, currentMove());
-            case 2 -> ticTacToeData.setMove(0, 1, currentMove());
-            case 3 -> ticTacToeData.setMove(0, 2, currentMove());
-            case 4 -> ticTacToeData.setMove(1, 0, currentMove());
-            case 5 -> ticTacToeData.setMove(1, 1, currentMove());
-            case 6 -> ticTacToeData.setMove(1, 2, currentMove());
-            case 7 -> ticTacToeData.setMove(2, 0, currentMove());
-            case 8 -> ticTacToeData.setMove(2, 1, currentMove());
-            case 9 -> ticTacToeData.setMove(2, 2, currentMove());
+    public void menageMove(int place, char move) {
+        switch (place) {
+            case 1 -> ticTacToeData.setMove(0, 0, move);
+            case 2 -> ticTacToeData.setMove(0, 1, move);
+            case 3 -> ticTacToeData.setMove(0, 2, move);
+            case 4 -> ticTacToeData.setMove(1, 0, move);
+            case 5 -> ticTacToeData.setMove(1, 1, move);
+            case 6 -> ticTacToeData.setMove(1, 2, move);
+            case 7 -> ticTacToeData.setMove(2, 0, move);
+            case 8 -> ticTacToeData.setMove(2, 1, move);
+            case 9 -> ticTacToeData.setMove(2, 2, move);
         }
     }
 
-    private boolean isFieldTaken(int move) {
-        boolean isFieldTaken;
-        if (ticTacToeData.getMovesOfOPlayer().contains(move) || ticTacToeData.getMovesOfXPlayer().contains(move)) {
-            System.out.println("field taken");
-            isFieldTaken = true;
-        } else {
-            isFieldTaken = false;
+    public boolean isFieldTaken(int move) {
+        boolean isFieldTaken = false;
+        if (!computerMode) {
+            if (ticTacToeData.getMovesOfOPlayer().contains(move) || ticTacToeData.getMovesOfXPlayer().contains(move)) {
+                System.out.println("field taken");
+                isFieldTaken = true;
+            } else {
+                isFieldTaken = false;
+            }
+        }
+        if (computerMode) {
+            if (ticTacToeComputerLogic.getComputerMoves().contains(move) || ticTacToeData.getMovesOfXPlayer().contains(move)) {
+                System.out.println("field taken");
+                isFieldTaken = true;
+            } else {
+                isFieldTaken = false;
+            }
         }
         return isFieldTaken;
     }
 
-    public boolean checkIfSomeOneWon(List<List> winningMoves, List<Integer> playerMoves) {
+
+    public boolean checkForDraw() {
+        if (ticTacToeData.getMovesOfXPlayer().size() + ticTacToeComputerLogic.getComputerMoves().size() == 9) {
+            System.out.println("draw");
+            endGame = true;
+            return true;
+        } else if (ticTacToeData.getMovesOfXPlayer().size() + ticTacToeData.getMovesOfOPlayer().size() == 9) {
+            System.out.println("draw");
+            endGame = true;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkIfSomeOneWon(List<List> winningMoves, List<Integer> playerMoves, List<Integer> secondPlayer) {
         for (List list : winningMoves) {
             if (playerMoves.containsAll(list)) {
-                System.out.println("winner is " + move);
+                System.out.println("winner is " + 'X');
+                System.out.println("won in " + list);
+                endGame = true;
+                return true;
+            } else if (secondPlayer.containsAll(list)) {
+                System.out.println("winner is " + 'O');
+                System.out.println("won in " + list);
                 endGame = true;
                 return true;
             }

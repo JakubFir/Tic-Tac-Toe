@@ -5,14 +5,18 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TicTacToeData {
+
     private List<Integer> movesOfXPlayer = new ArrayList<>();
     private List<Integer> movesOfOPlayer = new ArrayList<>();
+
     private List<List> winningMoves;
 
-    private char[][] movesBoard = {{'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}};
+    private char[][] board3x3 = new char[3][3];
+    private char[][] board10x10 = new char[10][10];
 
-    public char[][] getMovesBoard() {
-        return movesBoard;
+
+    public char[][] getBoard3x3() {
+        return board3x3;
     }
 
     public void addMoveOfXPlayer(int move) {
@@ -24,19 +28,18 @@ public class TicTacToeData {
     }
 
     public List<Integer> getMovesOfXPlayer() {
-        return movesOfXPlayer;
+        return this.movesOfXPlayer;
     }
-
 
     public List<Integer> getMovesOfOPlayer() {
         return movesOfOPlayer;
     }
 
     public void setMove(int i, int j, char move) {
-        movesBoard[i][j] = move;
+        board3x3[i][j] = move;
     }
 
-    private  List<List> winningMoves() {
+    private List<List> winningMoves() {
         winningMoves = new ArrayList<>();
         List topRow = Arrays.asList(1, 2, 3);
         List midRow = Arrays.asList(4, 5, 6);
