@@ -4,45 +4,24 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
+import static org.mockito.Mockito.when;
 
 
 class TicTacToeApplicationTests {
 
-    TicTacToeLogic ticTacToeLogic = new TicTacToeLogic();
-    List<List> winningMoves;
-
-    public List<List> winningMoves() {
-        winningMoves = new ArrayList<>();
-        List topRow = Arrays.asList(1, 2, 3);
-        List midRow = Arrays.asList(4, 5, 6);
-        List bottomRow = Arrays.asList(7, 8, 9);
-        List leftSide = Arrays.asList(1, 4, 7);
-        List middle = Arrays.asList(2, 5, 8);
-        List rightSide = Arrays.asList(3, 6, 9);
-        List firstCross = Arrays.asList(1, 5, 9);
-        List secondCross = Arrays.asList(3, 5, 7);
-
-        winningMoves.add(topRow);
-        winningMoves.add(midRow);
-        winningMoves.add(bottomRow);
-        winningMoves.add(leftSide);
-        winningMoves.add(middle);
-        winningMoves.add(rightSide);
-        winningMoves.add(firstCross);
-        winningMoves.add(secondCross);
-        return winningMoves;
-    }
-
     @Test
     void playerXWinsInTopRow() {
         //Given
-        List<Integer> xMoves = Arrays.asList(1, 2, 3);
-        List<Integer> oMoves = Arrays.asList(8, 4, 9);
+        char xMove = 'X';
+        board[0][0] = 'X';
+        board[0][1] = 'X';
+        board[0][2] = 'X';
+
+
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 0, 2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -50,10 +29,13 @@ class TicTacToeApplicationTests {
     @Test
     void playerXWinsInMidRow() {
         //Given
-        List<Integer> xMoves = Arrays.asList(4, 5, 6);
-        List<Integer> oMoves = Arrays.asList(2, 4, 9);
+        char xMove = 'x';
+        char[][] board = ticTacToeData.getBoard3x3();
+        board[1][0] = 'x';
+        board[1][1] = 'x';
+        board[1][2] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 1, 2);
         //Then
         Assertions.assertTrue(result);
 
@@ -62,10 +44,13 @@ class TicTacToeApplicationTests {
     @Test
     void playerXWinsInBottomRow() {
         //Given
-        List<Integer> xMoves = Arrays.asList(7, 8, 9);
-        List<Integer> oMoves = Arrays.asList(2, 4, 3);
+        char xMove = 'x';
+        char[][] board = ticTacToeData.getBoard3x3();
+        board[2][0] = 'x';
+        board[2][1] = 'x';
+        board[2][2] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 2, 2);
         //Then
         Assertions.assertTrue(result);
 
@@ -74,10 +59,13 @@ class TicTacToeApplicationTests {
     @Test
     void playerXWinsInLeftSide() {
         //Given
-        List<Integer> xMoves = Arrays.asList(1, 4, 7);
-        List<Integer> oMoves = Arrays.asList(2, 5, 9);
+        char xMove = 'x';
+        char[][] board = ticTacToeData.getBoard3x3();
+        board[0][0] = 'x';
+        board[1][0] = 'x';
+        board[2][0] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 0, 0);
         //Then
         Assertions.assertTrue(result);
 
@@ -85,23 +73,27 @@ class TicTacToeApplicationTests {
 
     @Test
     void playerXWinsInMiddle() {
-        //Given
-        List<Integer> xMoves = Arrays.asList(2, 8, 5);
-        List<Integer> oMoves = Arrays.asList(3, 4, 9);
+        char[][] board = ticTacToeData.getBoard3x3();
+        char xMove = 'x';
+        board[0][1] = 'x';
+        board[1][1] = 'x';
+        board[2][1] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 0, 1);
         //Then
         Assertions.assertTrue(result);
-
     }
 
     @Test
     void playerXWinsInRightSide() {
         //Given
-        List<Integer> xMoves = Arrays.asList(3, 6, 9);
-        List<Integer> oMoves = Arrays.asList(2, 4, 5);
+        char xMove = 'x';
+        char[][] board = ticTacToeData.getBoard3x3();
+        board[0][2] = 'x';
+        board[1][2] = 'x';
+        board[2][2] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 0, 2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -109,10 +101,13 @@ class TicTacToeApplicationTests {
     @Test
     void playerXWinsInFirstCross() {
         //Given
-        List<Integer> xMoves = Arrays.asList(1, 5, 9);
-        List<Integer> oMoves = Arrays.asList(2, 4, 5);
+        char xMove = 'x';
+        char[][] board = ticTacToeData.getBoard3x3();
+        board[0][0] = 'x';
+        board[1][1] = 'x';
+        board[2][2] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 2, 2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -120,21 +115,29 @@ class TicTacToeApplicationTests {
     @Test
     void playerXWinsInSecondCross() {
         //Given
-        List<Integer> xMoves = Arrays.asList(3, 5, 7);
-        List<Integer> oMoves = Arrays.asList(2, 4, 9);
+        char xMove = 'x';
+        char[][] board = ticTacToeData.getBoard3x3();
+        board[0][2] = 'x';
+        board[1][1] = 'x';
+        board[2][0] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 0, 2);
         //Then
         Assertions.assertTrue(result);
     }
 
+
     @Test
     void playerOWinsInTopRow() {
         //Given
-        List<Integer> oMoves = Arrays.asList(1, 2, 3);
-        List<Integer> xMoves = Arrays.asList(8, 4, 9);
+        char oMove = 'O';
+        board[0][0] = 'O';
+        board[0][1] = 'O';
+        board[0][2] = 'O';
+
+
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 0, 2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -142,10 +145,13 @@ class TicTacToeApplicationTests {
     @Test
     void playerOWinsInMidRow() {
         //Given
-        List<Integer> oMoves = Arrays.asList(4, 5, 6);
-        List<Integer> xMoves = Arrays.asList(2, 4, 9);
+        char oMove = 'o';
+        char[][] board = ticTacToeData.getBoard3x3();
+        board[1][0] = 'o';
+        board[1][1] = 'o';
+        board[1][2] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 1, 2);
         //Then
         Assertions.assertTrue(result);
 
@@ -154,10 +160,13 @@ class TicTacToeApplicationTests {
     @Test
     void playerOWinsInBottomRow() {
         //Given
-        List<Integer> oMoves = Arrays.asList(7, 8, 9);
-        List<Integer> xMoves = Arrays.asList(2, 4, 3);
+        char oMove = 'o';
+        char[][] board = ticTacToeData.getBoard3x3();
+        board[2][0] = 'o';
+        board[2][1] = 'o';
+        board[2][2] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 2, 2);
         //Then
         Assertions.assertTrue(result);
 
@@ -166,10 +175,13 @@ class TicTacToeApplicationTests {
     @Test
     void playerOWinsInLeftSide() {
         //Given
-        List<Integer> oMoves = Arrays.asList(1, 4, 7);
-        List<Integer> xMoves = Arrays.asList(2, 5, 9);
+        char oMove = 'o';
+        char[][] board = ticTacToeData.getBoard3x3();
+        board[0][0] = 'o';
+        board[1][0] = 'o';
+        board[2][0] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 0, 0);
         //Then
         Assertions.assertTrue(result);
 
@@ -177,23 +189,27 @@ class TicTacToeApplicationTests {
 
     @Test
     void playerOWinsInMiddle() {
-        //Given
-        List<Integer> oMoves = Arrays.asList(2, 8, 5);
-        List<Integer> xMoves = Arrays.asList(3, 4, 9);
+        char[][] board = ticTacToeData.getBoard3x3();
+        char oMove = 'o';
+        board[0][1] = 'o';
+        board[1][1] = 'o';
+        board[2][1] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 0, 1);
         //Then
         Assertions.assertTrue(result);
-
     }
 
     @Test
     void playerOWinsInRightSide() {
         //Given
-        List<Integer> oMoves = Arrays.asList(3, 6, 9);
-        List<Integer> xMoves = Arrays.asList(2, 4, 5);
+        char oMove = 'o';
+        char[][] board = ticTacToeData.getBoard3x3();
+        board[0][2] = 'o';
+        board[1][2] = 'o';
+        board[2][2] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 0, 2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -201,10 +217,13 @@ class TicTacToeApplicationTests {
     @Test
     void playerOWinsInFirstCross() {
         //Given
-        List<Integer> oMoves = Arrays.asList(1, 5, 9);
-        List<Integer> xMoves = Arrays.asList(2, 4, 5);
+        char oMove = 'o';
+        char[][] board = ticTacToeData.getBoard3x3();
+        board[0][0] = 'o';
+        board[1][1] = 'o';
+        board[2][2] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 2, 2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -212,36 +231,41 @@ class TicTacToeApplicationTests {
     @Test
     void playerOWinsInSecondCross() {
         //Given
-        List<Integer> oMoves = Arrays.asList(3, 5, 7);
-        List<Integer> xMoves = Arrays.asList(2, 4, 9);
+        char oMove = 'o';
+        char[][] board = ticTacToeData.getBoard3x3();
+        board[0][2] = 'o';
+        board[1][1] = 'o';
+        board[2][0] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(winningMoves(), xMoves, oMoves);
+        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 0, 2);
         //Then
         Assertions.assertTrue(result);
     }
 
     @Test
-    void shouldBeDraw() {
-       /* //Given
-        TicTacToeData ticTacToeDataMock = Mockito.mock(TicTacToeData.class);
-        List<Integer> playerO = Arrays.asList(1,2,3,4);
-        List<Integer> playerX= Arrays.asList(1,2,3,4);
+    void shouldBeDrawOn3x3Board() {
         //when
-        Mockito.when(ticTacToeDataMock.getMovesOfXPlayer()).thenReturn(playerX);
-        Mockito.when(ticTacToeDataMock.getMovesOfOPlayer()).thenReturn(playerO);
-        boolean result = ticTacToeLogic.checkForDraw();
+        boolean result = ticTacToeLogic.checkForDraw(3, 9);
         //then
         Assertions.assertTrue(result);
 
-        */
+
     }
 
     @Test
     void shouldThrowInputMissMatch() {
         //given
+        int boardSize = 1;
+        TicTacToeMoveValidator ticTacToeMoveValidator = Mockito.mock(TicTacToeMoveValidator.class);
         //when
+        when(ticTacToeMoveValidator.getNextMoveOnY(boardSize)).thenThrow(new InputMismatchException());
         //then
+        Assertions.assertThrows(InputMismatchException.class, () -> ticTacToeMoveValidator.getNextMoveOnY(1));
     }
+
+    TicTacToeLogic ticTacToeLogic = new TicTacToeLogic();
+    TicTacToeData ticTacToeData = new TicTacToeData();
+    char board[][] = ticTacToeData.getBoard3x3();
 }
 
 
