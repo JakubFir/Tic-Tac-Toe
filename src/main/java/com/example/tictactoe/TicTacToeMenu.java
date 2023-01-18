@@ -4,13 +4,18 @@ import java.util.Scanner;
 
 public class TicTacToeMenu {
     Scanner scanner = new Scanner(System.in);
+    private int gameMode = 0;
+
+    public int getGameMode() {
+        return gameMode;
+    }
 
     public Integer ticTacToeGameMode() {
         System.out.println("choice mode you would like to play: ");
         System.out.println("1. vs player");
         System.out.println("2. vs computer");
-        int answer = scanner.nextInt();
-        return answer;
+        gameMode = scanner.nextInt();
+        return gameMode;
     }
 
     public void gameInstructions() {
@@ -42,7 +47,7 @@ public class TicTacToeMenu {
     }
 
 
-    public void ticTacToeBoard(char[][] board, int boardSize) {
+    public char[][] ticTacToeBoard(char[][] board, int boardSize) {
         for (int i = 0; i <= boardSize - 1; i++) {
             for (int j = 0; j <= boardSize - 1; j++) {
                 if (board[i][j] != 'O' && board[i][j] != 'X') {
@@ -53,6 +58,8 @@ public class TicTacToeMenu {
             }
             System.out.println("|");
         }
+        return board;
     }
+
 
 }

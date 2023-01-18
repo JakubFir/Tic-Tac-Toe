@@ -1,58 +1,35 @@
 package com.example.tictactoe;
 
 public class TicTacToeGame {
-    private boolean computerMode = false;
     private boolean fieldTaken;
-    TicTacToeData ticTacToeData = new TicTacToeData();
     TicTacToeMenu ticTacToeMenu = new TicTacToeMenu();
+    private TicTacToeLogic ticTacToeLogic = new TicTacToeLogic();
+    TicTacToeGameState ticTacToeGameState = new TicTacToeGameState(ticTacToeLogic);
     TicTacToeMoveValidator ticTacToeMoveValidator = new TicTacToeMoveValidator();
-    TicTacToeComputerLogic ticTacToeComputerLogic = new TicTacToeComputerLogic();
-    TicTacToeLogic ticTacToeLogic = new TicTacToeLogic();
     int moveOnX;
     int moveOnY;
-    int boardSize = ticTacToeLogic.boardSize(ticTacToeMenu.choiceBoardSize());
-    char[][] board = ticTacToeLogic.getBoard(ticTacToeData.getBoard3x3(), ticTacToeData.getBoard10x10(), boardSize);
-
-    public void checkIfComputerMode() {
-        if (computerMode) {
-            ticTacToeComputerLogic.computerMove(board, boardSize);
-            ticTacToeLogic.menageMove(ticTacToeComputerLogic.getComputerMoveX(),
-                    ticTacToeComputerLogic.getComputerMoveY(),
-                    ticTacToeLogic.currentMove(),
-                    board);
-        }
-        if (!ticTacToeLogic.checkIfSomeOneWon(board, boardSize, ticTacToeLogic.getMove(), moveOnX, moveOnY)) {
-            ticTacToeLogic.checkForDraw(boardSize, ticTacToeLogic.currentRound);
-        }
-    }
-
-    public void setComputerMode(boolean computerMode) {
-        this.computerMode = computerMode;
-    }
 
     public void startGame() {
-        if (ticTacToeMenu.ticTacToeGameMode() == 2) {
-            setComputerMode(true);
-        }
+        ticTacToeGameState.isComputerModeOn(ticTacToeMenu.ticTacToeGameMode());
         ticTacToeMenu.gameInstructions();
         ticTacToeLogic.randomStart();
         do {
-            ticTacToeMenu.ticTacToeBoard(board, boardSize);
+            ticTacToeGameState.currentStateOfBoard();
             do {
-                moveOnX = ticTacToeMoveValidator.getNextMoveOnX(boardSize);
-                moveOnY = ticTacToeMoveValidator.getNextMoveOnY(boardSize);
-                fieldTaken = true;
-                if (!ticTacToeLogic.isFieldTaken(moveOnX, moveOnY, board)) {
-                    ticTacToeLogic.menageMove(moveOnX, moveOnY, ticTacToeLogic.currentMove(), board);
+                moveOnX = ticTacToeMoveValidator.getNextMoveOnX(ticTacToeGameState.getBoardSize());
+                moveOnY = ticTacToeMoveValidator.getNextMoveOnY(ticTacToeGameState.getBoardSize());
+                fieldTaken = ticTacToeGameState.isFieldTaken(moveOnX, moveOnY, ticTacToeGameState.choicedBoard());
+                if (!fieldTaken) {
+                    ticTacToeLogic.manageMove(moveOnX, moveOnY, ticTacToeLogic.currentMove(), ticTacToeGameState.choicedBoard());
                     fieldTaken = false;
                 }
             } while (fieldTaken);
-            if (!ticTacToeLogic.checkIfSomeOneWon(board, boardSize, ticTacToeLogic.getMove(), moveOnX, moveOnY)) {
-                ticTacToeLogic.checkForDraw(boardSize, ticTacToeLogic.currentRound);
+            if (!ticTacToeLogic.checkIfSomeOneWon(ticTacToeGameState.choicedBoard(), ticTacToeGameState.getBoardSize(), ticTacToeGameState.whosTurn(), moveOnX, moveOnY)) {
+                ticTacToeLogic.checkForDraw(ticTacToeGameState.getBoardSize(), ticTacToeGameState.getCurrentRound());
             }
-            checkIfComputerMode();
+            ticTacToeGameState.checkIfComputerMode(moveOnX, moveOnY);
         } while (!ticTacToeLogic.isEndGame());
-        ticTacToeMenu.ticTacToeBoard(board, boardSize);
+        ticTacToeGameState.currentStateOfBoard();
     }
 }
 

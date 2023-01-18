@@ -7,7 +7,11 @@ public class TicTacToeLogic {
     private char move;
     private boolean xTurn;
     private boolean oTurn;
-    public int currentRound = 0;
+    private int currentRound;
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
 
     public boolean isEndGame() {
         return endGame;
@@ -15,6 +19,10 @@ public class TicTacToeLogic {
 
     public char getMove() {
         return move;
+    }
+
+    public int getCurrentRound() {
+        return this.currentRound;
     }
 
     private boolean endGame;
@@ -36,6 +44,7 @@ public class TicTacToeLogic {
             move = 'X';
             xTurn = false;
             oTurn = true;
+
             return 'X';
 
         } else if (oTurn) {
@@ -48,14 +57,13 @@ public class TicTacToeLogic {
     }
 
 
-    public void menageMove(int x, int y, char move, char[][] board) {
+    public void manageMove(int x, int y, char move, char[][] board) {
         board[x][y] = move;
-        currentRound++;
-
+        setCurrentRound(getCurrentRound() + 1);
     }
 
     public boolean isFieldTaken(int x, int y, char[][] board) {
-        boolean isFieldTaken = false;
+        boolean isFieldTaken;
         if (board[x][y] == 'X' || board[x][y] == 'O') {
             System.out.println("field taken");
             isFieldTaken = true;
@@ -66,20 +74,22 @@ public class TicTacToeLogic {
     }
 
     public int boardSize(int choice) {
-
+        int boardSize = 0;
         if (choice == 1) {
-            choice = 3;
+            boardSize = 3;
         } else if (choice == 2) {
-            choice = 10;
+            boardSize = 10;
         }
-        return choice;
+        return boardSize;
     }
 
-    public char[][] getBoard(char[][] board3X3, char[][] board10x10, int choice) {
-        if (choice == 1) {
+    public char[][] getBoard(char[][] board3X3, char[][] board10x10, int boardSize) {
+        if (boardSize == 3) {
             return board3X3;
-        } else
+        } else if (boardSize == 10) {
             return board10x10;
+        }
+        return null;
     }
 
     public boolean checkForDraw(int boardSize, int currentRound) {
@@ -90,7 +100,8 @@ public class TicTacToeLogic {
                 System.out.println("draw");
                 result = true;
             }
-        } else if (boardSize == 10) {
+        }
+        if (boardSize == 10) {
             if (currentRound == 100) {
                 endGame = true;
                 System.out.println("draw");
@@ -100,11 +111,8 @@ public class TicTacToeLogic {
         return result;
     }
 
-
-    public boolean checkIfSomeOneWon(char[][] board, int boardSize, char move, int x, int y) {
+    public boolean checkForWinInRows(char[][] board, int boardSize, char move, int x, int y) {
         int count = 0;
-        System.out.println(move);
-        //Checks rows
         for (int i = 0; i <= board.length - 1; i++) {
             if (board[x][i] == move) {
                 count++;
@@ -115,12 +123,17 @@ public class TicTacToeLogic {
             if (count == 3 && boardSize == 3) {
                 endGame = true;
                 return true;
+
             } else if (count == 5 && boardSize == 10) {
                 endGame = true;
                 return true;
             }
         }
-        count = 0;
+        return false;
+    }
+
+    public boolean checkForWinInColumns(char[][] board, int boardSize, char move, int x, int y) {
+        int count = 0;
         for (int i = 0; i <= board.length - 1; i++) {
             if (board[i][y] == move) {
                 count++;
@@ -129,53 +142,70 @@ public class TicTacToeLogic {
                 count = 0;
             }
             if (count == 3 && boardSize == 3) {
-                endGame = true;
                 return true;
             } else if (count == 5 && boardSize == 10) {
-                endGame = true;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkForWinInFirstCross(char[][] board, int boardSize, char move, int x, int y) {
+        int count = 0;
+        for (int i = 0; i <= board.length - 1; i++) {
+            if (board[i][i] == move) {
+                count++;
+            }
+            if (board[i][i] != move) {
+                count = 0;
+            }
+            if (count == 3 && boardSize == 3) {
+                return true;
+            } else if (count == 5 && boardSize == 10) {
                 return true;
             }
         }
 
-        count = 0;
+        return false;
+    }
+
+    public boolean checkForWinInSecondCross(char[][] board, int boardSize, char move, int x, int y) {
+        int count = 0;
+        for (int i = 0; i <= board.length - 1; i++) {
+            if (board[i][(board.length - 1) - i] == move) {
+                count++;
+            }
+            if (board[i][(board.length - 1) - i] != move) {
+                count = 0;
+            }
+            if (count == 3 && boardSize == 3) {
+                return true;
+            } else if (count == 5 && boardSize == 10) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public boolean checkIfSomeOneWon(char[][] board, int boardSize, char move, int x, int y) {
         if (x == y) {
-            for (int i = 0; i <= board.length - 1; i++) {
-                if (board[i][i] == move) {
-                    count++;
-                }
-                if (board[i][i] != move) {
-                    count = 0;
-                }
-                if (count == 3 && boardSize == 3) {
-                    endGame = true;
-                    return true;
-                } else if (count == 5 && boardSize == 10) {
-                    endGame = true;
-                    return true;
-                }
-            }
-
-        }
-        count = 0;
-        if (x + y == board.length - 1) {
-            for (int i = 0; i <= board.length - 1; i++) {
-                if (board[i][(board.length - 1) - i] == move) {
-                    count++;
-                }
-                if (board[i][(board.length - 1) - i] != move) {
-                    count = 0;
-                }
-                if (count == 3 && boardSize == 3) {
-                    endGame = true;
-                    return true;
-                } else if (count == 5 && boardSize == 10) {
-                    endGame = true;
-                    return true;
-                }
-
+            if (checkForWinInFirstCross(board, boardSize, move, x, y)) {
+                endGame = true;
+                return true;
             }
         }
-
+        if (x + y == boardSize - 1) {
+            if (checkForWinInSecondCross(board, boardSize, move, x, y)) {
+                endGame = true;
+                return true;
+            }
+        }
+        if (checkForWinInRows(board, boardSize, move, x, y) ||
+                checkForWinInColumns(board, boardSize, move, x, y)) {
+            endGame = true;
+            return true;
+        }
         return false;
     }
 }

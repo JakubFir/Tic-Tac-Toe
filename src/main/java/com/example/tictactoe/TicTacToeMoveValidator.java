@@ -11,12 +11,13 @@ public class TicTacToeMoveValidator {
     public int getNextMoveX() {
         return nextMoveOnX;
     }
+
     public int getNextMoveY() {
         return nextMoveOnY;
     }
 
 
-    public int getNextMoveOnX(int boardSize){
+    public int getNextMoveOnX(int boardSize) {
         System.out.println("select row");
         boolean valid;
         do {
@@ -28,11 +29,12 @@ public class TicTacToeMoveValidator {
                 scanner.nextLine();
                 valid = false;
             }
-        }while (!valid);
-        validateMove(nextMoveOnX,boardSize);
+        } while (!valid);
+        validateMove(boardSize);
         return nextMoveOnX;
     }
-    public int getNextMoveOnY(int boardSize){
+
+    public int getNextMoveOnY(int boardSize) {
         System.out.println("select column");
         boolean valid;
         do {
@@ -44,18 +46,19 @@ public class TicTacToeMoveValidator {
                 scanner.nextLine();
                 valid = false;
             }
-        }while (!valid);
-        validateMove(nextMoveOnY,boardSize);
+        } while (!valid);
+        validateMove(boardSize);
         return nextMoveOnY;
     }
-    public boolean validateMove(int move,int boardSize) {
+
+    public boolean validateMove(int boardSize) {
         boolean valid = true;
-        if(nextMoveOnX > boardSize-1){
+        if (nextMoveOnX > boardSize - 1) {
             valid = false;
-            System.out.println("choice between 0-"+ (boardSize-1));
+            System.out.println("choice between 0-" + (boardSize - 1));
             getNextMoveOnX(boardSize);
-        }else if(nextMoveOnY > boardSize-1){
-            System.out.println("choice between 0-"+ (boardSize-1));
+        } else if (nextMoveOnY > boardSize - 1) {
+            System.out.println("choice between 0-" + (boardSize - 1));
             valid = false;
             getNextMoveOnY(boardSize);
         }

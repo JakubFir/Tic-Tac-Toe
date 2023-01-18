@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 
 import java.util.*;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
@@ -14,6 +15,7 @@ class TicTacToeApplicationTests {
     @Test
     void playerXWinsInTopRow() {
         //Given
+        char board[][] = ticTacToeData.getBoard3x3();
         char xMove = 'X';
         board[0][0] = 'X';
         board[0][1] = 'X';
@@ -57,7 +59,7 @@ class TicTacToeApplicationTests {
     }
 
     @Test
-    void playerXWinsInLeftSide() {
+    void playerXWinsInLeftColumn() {
         //Given
         char xMove = 'x';
         char[][] board = ticTacToeData.getBoard3x3();
@@ -72,7 +74,7 @@ class TicTacToeApplicationTests {
     }
 
     @Test
-    void playerXWinsInMiddle() {
+    void playerXWinsInMidColumn() {
         char[][] board = ticTacToeData.getBoard3x3();
         char xMove = 'x';
         board[0][1] = 'x';
@@ -85,7 +87,7 @@ class TicTacToeApplicationTests {
     }
 
     @Test
-    void playerXWinsInRightSide() {
+    void playerXWinsInRightColumn() {
         //Given
         char xMove = 'x';
         char[][] board = ticTacToeData.getBoard3x3();
@@ -130,6 +132,7 @@ class TicTacToeApplicationTests {
     @Test
     void playerOWinsInTopRow() {
         //Given
+        char board[][] = ticTacToeData.getBoard3x3();
         char oMove = 'O';
         board[0][0] = 'O';
         board[0][1] = 'O';
@@ -173,7 +176,7 @@ class TicTacToeApplicationTests {
     }
 
     @Test
-    void playerOWinsInLeftSide() {
+    void playerOWinsInLeftColumn() {
         //Given
         char oMove = 'o';
         char[][] board = ticTacToeData.getBoard3x3();
@@ -188,7 +191,7 @@ class TicTacToeApplicationTests {
     }
 
     @Test
-    void playerOWinsInMiddle() {
+    void playerOWinsInMidColumn() {
         char[][] board = ticTacToeData.getBoard3x3();
         char oMove = 'o';
         board[0][1] = 'o';
@@ -201,7 +204,7 @@ class TicTacToeApplicationTests {
     }
 
     @Test
-    void playerOWinsInRightSide() {
+    void playerOWinsInRightColumn() {
         //Given
         char oMove = 'o';
         char[][] board = ticTacToeData.getBoard3x3();
@@ -237,7 +240,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'o';
         board[2][0] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 0, 2);
+        boolean result = ticTacToeLogic.checkForWinInSecondCross(board, 3, oMove, 0, 2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -263,9 +266,30 @@ class TicTacToeApplicationTests {
         Assertions.assertThrows(InputMismatchException.class, () -> ticTacToeMoveValidator.getNextMoveOnY(1));
     }
 
+    @Test
+    public void visualTest() {
+        TicTacToeGameState gameStateMock = Mockito.mock(TicTacToeGameState.class);
+        //given
+        char[][] board2 = new char[3][3];
+        when(gameStateMock.currentStateOfBoard()).thenReturn(board2);
+        //when
+        char[][] expectedBoard = gameStateMock.currentStateOfBoard();
+        board2[0][0] = 'X';
+        board2[1][1] = 'O';
+        board2[2][2] = 'X';
+        //then
+        for (int i = 0; i < expectedBoard.length; i++) {
+            for (int j = 0; j < expectedBoard[i].length; j++) {
+                System.out.print("|" + expectedBoard[i][j] + "|");
+            }
+            System.out.println();
+        }
+        Assertions.assertArrayEquals(board2, expectedBoard);
+    }
+
     TicTacToeLogic ticTacToeLogic = new TicTacToeLogic();
     TicTacToeData ticTacToeData = new TicTacToeData();
-    char board[][] = ticTacToeData.getBoard3x3();
+
 }
 
 

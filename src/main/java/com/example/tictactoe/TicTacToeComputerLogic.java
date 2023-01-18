@@ -6,11 +6,9 @@ import java.util.List;
 import java.util.Random;
 
 public class TicTacToeComputerLogic {
-
-    private List<Integer> computerMoves = new ArrayList<>();
     Random rnd = new Random();
-    int computerMoveX;
-    int computerMoveY;
+    private int computerMoveX;
+    private int computerMoveY;
 
     public int getComputerMoveX() {
         return computerMoveX;
