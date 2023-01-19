@@ -4,13 +4,14 @@ public class TicTacToeGame {
     private boolean fieldTaken;
     TicTacToeMenu ticTacToeMenu = new TicTacToeMenu();
     TicTacToeLogic ticTacToeLogic = new TicTacToeLogic();
-    TicTacToeGameState ticTacToeGameState = new TicTacToeGameState(ticTacToeLogic);
+    TicTacToeGameState ticTacToeGameState = new TicTacToeGameState(ticTacToeLogic, ticTacToeMenu);
 
     public void startGame() {
-        ticTacToeGameState.playerChoiceBetweenMode();
-        ticTacToeGameState.playerBoardChoice();
+        ticTacToeMenu.choiceMenuBetweenComputerOrPlayer();
+        ticTacToeMenu.choiceBoardSize();
         ticTacToeMenu.gameInstructions();
         ticTacToeLogic.randomStart();
+        ticTacToeGameState.manageGameMode();
         do {
             ticTacToeGameState.printCurrentStateOfBoard();
             do {
@@ -19,18 +20,18 @@ public class TicTacToeGame {
                 fieldTaken = ticTacToeGameState.isFieldTaken(
                         ticTacToeGameState.getMoveOnX(),
                         ticTacToeGameState.getMoveOnY(),
-                        ticTacToeGameState.choicedBoard());
+                        ticTacToeGameState.getBoard());
                 if (!fieldTaken) {
                     ticTacToeLogic.playMove(
                             ticTacToeGameState.getMoveOnX(),
                             ticTacToeGameState.getMoveOnY(),
                             ticTacToeLogic.currentMove(),
-                            ticTacToeGameState.choicedBoard());
+                            ticTacToeGameState.getBoard());
                     fieldTaken = false;
                 }
             } while (fieldTaken);
             if (!ticTacToeLogic.checkIfSomeOneWon(
-                    ticTacToeGameState.choicedBoard(),
+                    ticTacToeGameState.getBoard(),
                     ticTacToeGameState.getBoardSize(),
                     ticTacToeGameState.whoseTurn(),
                     ticTacToeGameState.getMoveOnX(),

@@ -1,21 +1,36 @@
 package com.example.tictactoe;
 
-import java.util.Scanner;
-
 public class TicTacToeMenu {
     TicTacToePlayerChoiceValidator ticTacToePlayerChoiceValidator = new TicTacToePlayerChoiceValidator();
-    private int gameMode;
+    private int chosenGameMode;
+    private int chosenBoardSize;
 
-    public Integer choiceMenuBetweenComputerOrPlayer() {
+    public int getChosenGameMode() {
+        return chosenGameMode;
+    }
+
+    public void setChosenGameMode(int chosenGameMode) {
+        this.chosenGameMode = chosenGameMode;
+    }
+
+    public void choiceMenuBetweenComputerOrPlayer() {
         System.out.println("choice mode you would like to play: ");
         System.out.println("1. vs player");
         System.out.println("2. vs computer");
-        gameMode = ticTacToePlayerChoiceValidator.validateMenuChoice();
-        return gameMode;
+        chosenGameMode = ticTacToePlayerChoiceValidator.validateMenuChoice();
+        setChosenGameMode(chosenGameMode);
+    }
+
+
+    public void setChosenBoardSize(int chosenBoardSize) {
+        this.chosenBoardSize = chosenBoardSize;
+    }
+
+    public int getChosenBoardSize() {
+        return chosenBoardSize;
     }
 
     public void gameInstructions() {
-
         System.out.println("Make moves on rows and columns");
         System.out.println("Each box has hes own coordinates");
         System.out.print("  " + 0);
@@ -33,13 +48,12 @@ public class TicTacToeMenu {
         System.out.println();
     }
 
-    public int choiceBoardSize() {
-        int boardSize;
+    public void choiceBoardSize() {
         System.out.println("Choice board size: ");
         System.out.println("1. 3x3");
         System.out.println("2. 10x10");
-        boardSize = ticTacToePlayerChoiceValidator.validateMenuChoice();
-        return boardSize;
+        chosenBoardSize = ticTacToePlayerChoiceValidator.validateMenuChoice();
+        setChosenBoardSize(chosenBoardSize);
     }
 
 

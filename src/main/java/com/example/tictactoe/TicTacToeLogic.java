@@ -72,25 +72,6 @@ public class TicTacToeLogic {
         return isFieldTaken;
     }
 
-    public int boardSize(int choice) {
-        int boardSize = 0;
-        if (choice == 1) {
-            boardSize = 3;
-        } else if (choice == 2) {
-            boardSize = 10;
-        }
-        return boardSize;
-    }
-
-    public char[][] getBoard(char[][] board3X3, char[][] board10x10, int boardSize) {
-        if (boardSize == 3) {
-            return board3X3;
-        } else if (boardSize == 10) {
-            return board10x10;
-        }
-        return null;
-    }
-
     public boolean checkForDraw(int boardSize, int currentRound) {
         boolean result = false;
         if (boardSize == 3) {
