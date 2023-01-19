@@ -132,7 +132,7 @@ public class TicTacToeLogic {
 
     public boolean checkForWinInFirstCross(char[][] board, int boardSize, char move, int x, int y) {
         int count = 0;
-        for (int i = 0; i <= board.length - 1; i++) {
+        for (int i = 0; i <= boardSize - 1; i++) {
             if (board[i][i] == move) {
                 count++;
             }
@@ -168,21 +168,37 @@ public class TicTacToeLogic {
     }
 
 
-    public boolean checkIfSomeOneWon(char[][] board, int boardSize, char move, int x, int y) {
-        if (x == y) {
-            if (checkForWinInFirstCross(board, boardSize, move, x, y)) {
+    public boolean checkIfSomeOneWon(TicTacToeGameState ticTacToeGameState) {
+        if (ticTacToeGameState.getMoveOnX() == ticTacToeGameState.getMoveOnY()) {
+            if (checkForWinInFirstCross(ticTacToeGameState.getBoard(),
+                    ticTacToeGameState.getBoardSize(),
+                    move,
+                    ticTacToeGameState.getMoveOnX(),
+                    ticTacToeGameState.getMoveOnY())) {
                 endGame = true;
                 return true;
             }
         }
-        if (x + y == boardSize - 1) {
-            if (checkForWinInSecondCross(board, boardSize, move, x, y)) {
+        if (ticTacToeGameState.getMoveOnX() + ticTacToeGameState.getMoveOnY() == ticTacToeGameState.getBoardSize() - 1) {
+            if (checkForWinInSecondCross(ticTacToeGameState.getBoard(),
+                    ticTacToeGameState.getBoardSize(),
+                    move,
+                    ticTacToeGameState.getMoveOnX(),
+                    ticTacToeGameState.getMoveOnY())) {
                 endGame = true;
                 return true;
             }
         }
-        if (checkForWinInRows(board, boardSize, move, x, y) ||
-                checkForWinInColumns(board, boardSize, move, x, y)) {
+        if (checkForWinInRows(ticTacToeGameState.getBoard(),
+                ticTacToeGameState.getBoardSize(),
+                move,
+                ticTacToeGameState.getMoveOnX(),
+                ticTacToeGameState.getMoveOnY()) ||
+                checkForWinInColumns(ticTacToeGameState.getBoard(),
+                        ticTacToeGameState.getBoardSize(),
+                        move,
+                        ticTacToeGameState.getMoveOnX(),
+                        ticTacToeGameState.getMoveOnY())) {
             endGame = true;
             return true;
         }

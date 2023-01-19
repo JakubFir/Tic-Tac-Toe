@@ -15,15 +15,13 @@ class TicTacToeApplicationTests {
     @Test
     void playerXWinsInTopRow() {
         //Given
-        char board[][] = ticTacToeData.getBoard3x3();
+        char board[][] = new char[3][3];
         char xMove = 'X';
         board[0][0] = 'X';
         board[0][1] = 'X';
         board[0][2] = 'X';
-
-
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 0, 2);
+        boolean result = ticTacToeLogic.checkForWinInRows(board,3,xMove,0,2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -37,7 +35,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'x';
         board[1][2] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 1, 2);
+        boolean result = ticTacToeLogic.checkForWinInRows(board,3,xMove,1,0);
         //Then
         Assertions.assertTrue(result);
 
@@ -52,7 +50,7 @@ class TicTacToeApplicationTests {
         board[2][1] = 'x';
         board[2][2] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 2, 2);
+        boolean result = ticTacToeLogic.checkForWinInRows(board,3,xMove,2,0);
         //Then
         Assertions.assertTrue(result);
 
@@ -67,7 +65,7 @@ class TicTacToeApplicationTests {
         board[1][0] = 'x';
         board[2][0] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 0, 0);
+        boolean result = ticTacToeLogic.checkForWinInColumns(board,3,xMove,0,0);
         //Then
         Assertions.assertTrue(result);
 
@@ -81,7 +79,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'x';
         board[2][1] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 0, 1);
+        boolean result = ticTacToeLogic.checkForWinInColumns(board,3,xMove,0,1);
         //Then
         Assertions.assertTrue(result);
     }
@@ -95,7 +93,7 @@ class TicTacToeApplicationTests {
         board[1][2] = 'x';
         board[2][2] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 0, 2);
+        boolean result = ticTacToeLogic.checkForWinInColumns(board,3,xMove,0,2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -109,7 +107,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'x';
         board[2][2] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 2, 2);
+        boolean result = ticTacToeLogic.checkForWinInFirstCross(board,3,xMove,0,0);
         //Then
         Assertions.assertTrue(result);
     }
@@ -123,7 +121,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'x';
         board[2][0] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, xMove, 0, 2);
+        boolean result = ticTacToeLogic.checkForWinInSecondCross(board,3,xMove,0,2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -140,7 +138,7 @@ class TicTacToeApplicationTests {
 
 
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 0, 2);
+        boolean result = ticTacToeLogic.checkForWinInRows(board,3,oMove,0,0);
         //Then
         Assertions.assertTrue(result);
     }
@@ -154,7 +152,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'o';
         board[1][2] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 1, 2);
+        boolean result = ticTacToeLogic.checkForWinInRows(board,3,oMove,1,0);
         //Then
         Assertions.assertTrue(result);
 
@@ -169,7 +167,7 @@ class TicTacToeApplicationTests {
         board[2][1] = 'o';
         board[2][2] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 2, 2);
+        boolean result = ticTacToeLogic.checkForWinInRows(board,3,oMove,2,0);
         //Then
         Assertions.assertTrue(result);
 
@@ -184,7 +182,7 @@ class TicTacToeApplicationTests {
         board[1][0] = 'o';
         board[2][0] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 0, 0);
+        boolean result = ticTacToeLogic.checkForWinInColumns(board,3,oMove,0,0);
         //Then
         Assertions.assertTrue(result);
 
@@ -198,7 +196,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'o';
         board[2][1] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 0, 1);
+        boolean result = ticTacToeLogic.checkForWinInColumns(board,3,oMove,0,1);
         //Then
         Assertions.assertTrue(result);
     }
@@ -212,7 +210,7 @@ class TicTacToeApplicationTests {
         board[1][2] = 'o';
         board[2][2] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 0, 2);
+        boolean result = ticTacToeLogic.checkForWinInColumns(board,3,oMove,0,2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -226,7 +224,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'o';
         board[2][2] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkIfSomeOneWon(board, 3, oMove, 2, 2);
+        boolean result = ticTacToeLogic.checkForWinInFirstCross(board,3,oMove,0,0);
         //Then
         Assertions.assertTrue(result);
     }
@@ -240,7 +238,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'o';
         board[2][0] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkForWinInSecondCross(board, 3, oMove, 0, 2);
+        boolean result = ticTacToeLogic.checkForWinInSecondCross(board,3,oMove,0,2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -287,6 +285,7 @@ class TicTacToeApplicationTests {
         Assertions.assertArrayEquals(board2, expectedBoard);
     }
 
+    TicTacToeGameState ticTacToeGameStateMock = Mockito.mock(TicTacToeGameState.class);
     TicTacToeLogic ticTacToeLogic = new TicTacToeLogic();
     TicTacToeData ticTacToeData = new TicTacToeData();
 

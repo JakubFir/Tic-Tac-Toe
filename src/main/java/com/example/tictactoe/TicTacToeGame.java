@@ -30,16 +30,11 @@ public class TicTacToeGame {
                     fieldTaken = false;
                 }
             } while (fieldTaken);
-            if (!ticTacToeLogic.checkIfSomeOneWon(
-                    ticTacToeGameState.getBoard(),
-                    ticTacToeGameState.getBoardSize(),
-                    ticTacToeGameState.whoseTurn(),
-                    ticTacToeGameState.getMoveOnX(),
-                    ticTacToeGameState.getMoveOnY())) {
+            if (!ticTacToeLogic.checkIfSomeOneWon(ticTacToeGameState)) {
                 ticTacToeLogic.checkForDraw(ticTacToeGameState.getBoardSize(), ticTacToeGameState.getCurrentRound());
             }
             if (ticTacToeGameState.isComputerModeOn()) {
-                ticTacToeGameState.computerMove(ticTacToeGameState.getMoveOnX(), ticTacToeGameState.getMoveOnY());
+                ticTacToeGameState.computerMove();
             }
         } while (!ticTacToeLogic.isEndGame());
         ticTacToeGameState.printCurrentStateOfBoard();

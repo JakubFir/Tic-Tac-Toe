@@ -25,6 +25,14 @@ public class TicTacToeGameState {
         return moveOnY;
     }
 
+    public void setMoveOnX(int moveOnX) {
+        this.moveOnX = moveOnX;
+    }
+
+    public void setMoveOnY(int moveOnY) {
+        this.moveOnY = moveOnY;
+    }
+
     public int getBoardSize() {
         return boardSize;
     }
@@ -40,7 +48,7 @@ public class TicTacToeGameState {
         } else if (boardSize == 10) {
             return ticTacToeData.getBoard10x10();
         }
-        return null;
+        return ticTacToeData.getBoard3x3();
     }
 
     public void chosenBoardSize() {
@@ -53,11 +61,11 @@ public class TicTacToeGameState {
     }
 
     public void playerMoveOnX() {
-        moveOnX = ticTacToeMoveValidator.getNextMoveOnX(getBoardSize());
+        setMoveOnX(ticTacToeMoveValidator.getNextMoveOnX(getBoardSize()));
     }
 
     public void playerMoveOnY() {
-        moveOnY = ticTacToeMoveValidator.getNextMoveOnY(getBoardSize());
+        setMoveOnY(ticTacToeMoveValidator.getNextMoveOnY(getBoardSize()));
     }
 
     public void setBoardSize(int boardSize) {
@@ -96,15 +104,15 @@ public class TicTacToeGameState {
     }
 
 
-    public void computerMove(int moveOnX, int moveOnY) {
+    public void computerMove() {
         ticTacToeComputerLogic.computerMove(getBoard(), boardSize);
+        setMoveOnX(ticTacToeComputerLogic.getComputerMoveX());
+        setMoveOnY(ticTacToeComputerLogic.getComputerMoveY());
         ticTacToeLogic.playMove(
-                ticTacToeComputerLogic.getComputerMoveX(),
-                ticTacToeComputerLogic.getComputerMoveY(),
+                getMoveOnX(),
+                getMoveOnY(),
                 ticTacToeLogic.currentMove(),
                 getBoard());
-        if (!ticTacToeLogic.checkIfSomeOneWon(getBoard(), boardSize, whoseTurn(), moveOnX, moveOnY)) {
-            ticTacToeLogic.checkForDraw(getBoardSize(), getCurrentRound());
-        }
+        ticTacToeLogic.checkIfSomeOneWon(this);
     }
 }
