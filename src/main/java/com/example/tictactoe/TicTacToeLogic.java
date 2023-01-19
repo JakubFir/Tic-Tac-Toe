@@ -7,6 +7,7 @@ public class TicTacToeLogic {
     private char move;
     private boolean xTurn;
     private boolean oTurn;
+    private boolean endGame;
     private int currentRound;
 
     public void setCurrentRound(int currentRound) {
@@ -24,8 +25,6 @@ public class TicTacToeLogic {
     public int getCurrentRound() {
         return this.currentRound;
     }
-
-    private boolean endGame;
 
 
     public void randomStart() {
@@ -57,7 +56,7 @@ public class TicTacToeLogic {
     }
 
 
-    public void manageMove(int x, int y, char move, char[][] board) {
+    public void playMove(int x, int y, char move, char[][] board) {
         board[x][y] = move;
         setCurrentRound(getCurrentRound() + 1);
     }

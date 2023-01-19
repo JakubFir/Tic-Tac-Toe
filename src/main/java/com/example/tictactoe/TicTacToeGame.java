@@ -3,33 +3,45 @@ package com.example.tictactoe;
 public class TicTacToeGame {
     private boolean fieldTaken;
     TicTacToeMenu ticTacToeMenu = new TicTacToeMenu();
-    private TicTacToeLogic ticTacToeLogic = new TicTacToeLogic();
+    TicTacToeLogic ticTacToeLogic = new TicTacToeLogic();
     TicTacToeGameState ticTacToeGameState = new TicTacToeGameState(ticTacToeLogic);
-    TicTacToeMoveValidator ticTacToeMoveValidator = new TicTacToeMoveValidator();
-    int moveOnX;
-    int moveOnY;
 
     public void startGame() {
-        ticTacToeGameState.isComputerModeOn(ticTacToeMenu.ticTacToeGameMode());
+        ticTacToeGameState.playerChoiceBetweenMode();
+        ticTacToeGameState.playerBoardChoice();
         ticTacToeMenu.gameInstructions();
         ticTacToeLogic.randomStart();
         do {
-            ticTacToeGameState.currentStateOfBoard();
+            ticTacToeGameState.printCurrentStateOfBoard();
             do {
-                moveOnX = ticTacToeMoveValidator.getNextMoveOnX(ticTacToeGameState.getBoardSize());
-                moveOnY = ticTacToeMoveValidator.getNextMoveOnY(ticTacToeGameState.getBoardSize());
-                fieldTaken = ticTacToeGameState.isFieldTaken(moveOnX, moveOnY, ticTacToeGameState.choicedBoard());
+                ticTacToeGameState.playerMoveOnX();
+                ticTacToeGameState.playerMoveOnY();
+                fieldTaken = ticTacToeGameState.isFieldTaken(
+                        ticTacToeGameState.getMoveOnX(),
+                        ticTacToeGameState.getMoveOnY(),
+                        ticTacToeGameState.choicedBoard());
                 if (!fieldTaken) {
-                    ticTacToeLogic.manageMove(moveOnX, moveOnY, ticTacToeLogic.currentMove(), ticTacToeGameState.choicedBoard());
+                    ticTacToeLogic.playMove(
+                            ticTacToeGameState.getMoveOnX(),
+                            ticTacToeGameState.getMoveOnY(),
+                            ticTacToeLogic.currentMove(),
+                            ticTacToeGameState.choicedBoard());
                     fieldTaken = false;
                 }
             } while (fieldTaken);
-            if (!ticTacToeLogic.checkIfSomeOneWon(ticTacToeGameState.choicedBoard(), ticTacToeGameState.getBoardSize(), ticTacToeGameState.whosTurn(), moveOnX, moveOnY)) {
+            if (!ticTacToeLogic.checkIfSomeOneWon(
+                    ticTacToeGameState.choicedBoard(),
+                    ticTacToeGameState.getBoardSize(),
+                    ticTacToeGameState.whoseTurn(),
+                    ticTacToeGameState.getMoveOnX(),
+                    ticTacToeGameState.getMoveOnY())) {
                 ticTacToeLogic.checkForDraw(ticTacToeGameState.getBoardSize(), ticTacToeGameState.getCurrentRound());
             }
-            ticTacToeGameState.checkIfComputerMode(moveOnX, moveOnY);
+            if (ticTacToeGameState.isComputerModeOn()) {
+                ticTacToeGameState.computerMove(ticTacToeGameState.getMoveOnX(), ticTacToeGameState.getMoveOnY());
+            }
         } while (!ticTacToeLogic.isEndGame());
-        ticTacToeGameState.currentStateOfBoard();
+        ticTacToeGameState.printCurrentStateOfBoard();
     }
 }
 

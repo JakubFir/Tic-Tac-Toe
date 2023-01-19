@@ -3,18 +3,14 @@ package com.example.tictactoe;
 import java.util.Scanner;
 
 public class TicTacToeMenu {
-    Scanner scanner = new Scanner(System.in);
-    private int gameMode = 0;
+    TicTacToePlayerChoiceValidator ticTacToePlayerChoiceValidator = new TicTacToePlayerChoiceValidator();
+    private int gameMode;
 
-    public int getGameMode() {
-        return gameMode;
-    }
-
-    public Integer ticTacToeGameMode() {
+    public Integer choiceMenuBetweenComputerOrPlayer() {
         System.out.println("choice mode you would like to play: ");
         System.out.println("1. vs player");
         System.out.println("2. vs computer");
-        gameMode = scanner.nextInt();
+        gameMode = ticTacToePlayerChoiceValidator.validateMenuChoice();
         return gameMode;
     }
 
@@ -42,7 +38,7 @@ public class TicTacToeMenu {
         System.out.println("Choice board size: ");
         System.out.println("1. 3x3");
         System.out.println("2. 10x10");
-        boardSize = scanner.nextInt();
+        boardSize = ticTacToePlayerChoiceValidator.validateMenuChoice();
         return boardSize;
     }
 

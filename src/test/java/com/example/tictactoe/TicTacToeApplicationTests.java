@@ -259,7 +259,7 @@ class TicTacToeApplicationTests {
     void shouldThrowInputMissMatch() {
         //given
         int boardSize = 1;
-        TicTacToeMoveValidator ticTacToeMoveValidator = Mockito.mock(TicTacToeMoveValidator.class);
+        TicTacToePlayerChoiceValidator ticTacToeMoveValidator = Mockito.mock(TicTacToePlayerChoiceValidator.class);
         //when
         when(ticTacToeMoveValidator.getNextMoveOnY(boardSize)).thenThrow(new InputMismatchException());
         //then
@@ -271,9 +271,9 @@ class TicTacToeApplicationTests {
         TicTacToeGameState gameStateMock = Mockito.mock(TicTacToeGameState.class);
         //given
         char[][] board2 = new char[3][3];
-        when(gameStateMock.currentStateOfBoard()).thenReturn(board2);
+        when(gameStateMock.printCurrentStateOfBoard()).thenReturn(board2);
         //when
-        char[][] expectedBoard = gameStateMock.currentStateOfBoard();
+        char[][] expectedBoard = gameStateMock.printCurrentStateOfBoard();
         board2[0][0] = 'X';
         board2[1][1] = 'O';
         board2[2][2] = 'X';
