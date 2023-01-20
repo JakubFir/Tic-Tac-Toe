@@ -1,20 +1,22 @@
 package com.example.tictactoe;
 
 public class TicTacToeGameState {
-    TicTacToeLogic ticTacToeLogic = new TicTacToeLogic();
-    TicTacToeMenu ticTacToeMenu = new TicTacToeMenu();
-    TicTacToeComputerLogic ticTacToeComputerLogic = new TicTacToeComputerLogic();
     TicTacToePlayerChoiceValidator ticTacToeMoveValidator = new TicTacToePlayerChoiceValidator();
-
     TicTacToeData ticTacToeData = new TicTacToeData();
     private boolean computerMode;
     private int boardSize;
     private int moveOnX;
     private int moveOnY;
+    private int currentRound;
 
-    public TicTacToeGameState(TicTacToeLogic ticTacToeLogic, TicTacToeMenu ticTacToeMenu) {
-        this.ticTacToeLogic = ticTacToeLogic;
-        this.ticTacToeMenu = ticTacToeMenu;
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
+
+    private int chosenGameMode;
+
+    public void setChosenGameMode(int chosenGameMode) {
+        this.chosenGameMode = chosenGameMode;
     }
 
     public int getMoveOnX() {
@@ -37,10 +39,7 @@ public class TicTacToeGameState {
         return boardSize;
     }
 
-    public int getCurrentRound() {
-        return ticTacToeLogic.getCurrentRound();
 
-    }
 
     public char[][] getBoard() {
         if (boardSize == 3) {
@@ -52,12 +51,16 @@ public class TicTacToeGameState {
     }
 
     public void chosenBoardSize() {
-        int choice = ticTacToeMenu.getChosenBoardSize();
+        int choice = getBoardSize();
         if (choice == 1) {
             setBoardSize(3);
         } else if (choice == 2) {
             setBoardSize(10);
         }
+    }
+
+    public int getCurrentRound() {
+        return currentRound;
     }
 
     public void playerMoveOnX() {
@@ -75,44 +78,41 @@ public class TicTacToeGameState {
     public void setComputerMode(boolean computerMode) {
         this.computerMode = computerMode;
     }
-
-
     public boolean isComputerModeOn() {
         return computerMode;
     }
 
-    public char whoseTurn() {
-        return ticTacToeLogic.getMove();
-    }
-
 
     public void manageGameMode() {
-        if (ticTacToeMenu.getChosenGameMode() == 2) {
+        if (chosenGameMode == 2) {
             setComputerMode(true);
         }
     }
 
     public char[][] printCurrentStateOfBoard() {
         chosenBoardSize();
-        char[][] state = ticTacToeMenu.ticTacToeBoard(getBoard(), boardSize);
-        return state;
+        char[][] board = getBoard();
+        for (int i = 0; i <= boardSize - 1; i++) {
+            for (int j = 0; j <= boardSize - 1; j++) {
+                if (board[i][j] != 'O' && board[i][j] != 'X') {
+                    System.out.print("|" + ' ');
+                } else {
+                    System.out.print("|" + board[i][j]);
+                }
+            }
+            System.out.println("|");
+        }
+        return board;
+    }
+    public boolean isFieldTaken() {
+        boolean isFieldTaken;
+        if (getBoard()[moveOnX][moveOnY] == 'X' || getBoard()[moveOnX][moveOnY] == 'O') {
+            System.out.println("field taken");
+            isFieldTaken = true;
+        } else {
+            isFieldTaken = false;
+        }
+        return isFieldTaken;
     }
 
-
-    public boolean isFieldTaken(int x, int y, char[][] board) {
-        return ticTacToeLogic.isFieldTaken(x, y, board);
-    }
-
-
-    public void computerMove() {
-        ticTacToeComputerLogic.computerMove(getBoard(), boardSize);
-        setMoveOnX(ticTacToeComputerLogic.getComputerMoveX());
-        setMoveOnY(ticTacToeComputerLogic.getComputerMoveY());
-        ticTacToeLogic.playMove(
-                getMoveOnX(),
-                getMoveOnY(),
-                ticTacToeLogic.currentMove(),
-                getBoard());
-        ticTacToeLogic.checkIfSomeOneWon(this);
-    }
 }

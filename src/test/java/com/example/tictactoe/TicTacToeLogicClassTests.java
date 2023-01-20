@@ -10,7 +10,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-class TicTacToeApplicationTests {
+class TicTacToeLogicClassTests {
+
+    TicTacToeGameState ticTacToeGameStateMock = Mockito.mock(TicTacToeGameState.class);
+    TicTacToeLogic sut = new TicTacToeLogic(ticTacToeGameStateMock);
+    TicTacToeData ticTacToeData = new TicTacToeData();
 
     @Test
     void playerXWinsInTopRow() {
@@ -21,7 +25,7 @@ class TicTacToeApplicationTests {
         board[0][1] = 'X';
         board[0][2] = 'X';
         //When
-        boolean result = ticTacToeLogic.checkForWinInRows(board,3,xMove,0,2);
+        boolean result = sut.checkForWinInRows(board, 3, xMove, 0, 2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -35,7 +39,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'x';
         board[1][2] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkForWinInRows(board,3,xMove,1,0);
+        boolean result = sut.checkForWinInRows(board, 3, xMove, 1, 0);
         //Then
         Assertions.assertTrue(result);
 
@@ -50,7 +54,7 @@ class TicTacToeApplicationTests {
         board[2][1] = 'x';
         board[2][2] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkForWinInRows(board,3,xMove,2,0);
+        boolean result = sut.checkForWinInRows(board, 3, xMove, 2, 0);
         //Then
         Assertions.assertTrue(result);
 
@@ -65,7 +69,7 @@ class TicTacToeApplicationTests {
         board[1][0] = 'x';
         board[2][0] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkForWinInColumns(board,3,xMove,0,0);
+        boolean result = sut.checkForWinInColumns(board, 3, xMove, 0, 0);
         //Then
         Assertions.assertTrue(result);
 
@@ -79,7 +83,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'x';
         board[2][1] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkForWinInColumns(board,3,xMove,0,1);
+        boolean result = sut.checkForWinInColumns(board, 3, xMove, 0, 1);
         //Then
         Assertions.assertTrue(result);
     }
@@ -93,7 +97,7 @@ class TicTacToeApplicationTests {
         board[1][2] = 'x';
         board[2][2] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkForWinInColumns(board,3,xMove,0,2);
+        boolean result = sut.checkForWinInColumns(board, 3, xMove, 0, 2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -107,7 +111,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'x';
         board[2][2] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkForWinInFirstCross(board,3,xMove,0,0);
+        boolean result = sut.checkForWinInFirstCross(board, 3, xMove, 0, 0);
         //Then
         Assertions.assertTrue(result);
     }
@@ -121,7 +125,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'x';
         board[2][0] = 'x';
         //When
-        boolean result = ticTacToeLogic.checkForWinInSecondCross(board,3,xMove,0,2);
+        boolean result = sut.checkForWinInSecondCross(board, 3, xMove, 0, 2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -138,7 +142,7 @@ class TicTacToeApplicationTests {
 
 
         //When
-        boolean result = ticTacToeLogic.checkForWinInRows(board,3,oMove,0,0);
+        boolean result = sut.checkForWinInRows(board, 3, oMove, 0, 0);
         //Then
         Assertions.assertTrue(result);
     }
@@ -152,7 +156,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'o';
         board[1][2] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkForWinInRows(board,3,oMove,1,0);
+        boolean result = sut.checkForWinInRows(board, 3, oMove, 1, 0);
         //Then
         Assertions.assertTrue(result);
 
@@ -167,7 +171,7 @@ class TicTacToeApplicationTests {
         board[2][1] = 'o';
         board[2][2] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkForWinInRows(board,3,oMove,2,0);
+        boolean result = sut.checkForWinInRows(board, 3, oMove, 2, 0);
         //Then
         Assertions.assertTrue(result);
 
@@ -182,7 +186,7 @@ class TicTacToeApplicationTests {
         board[1][0] = 'o';
         board[2][0] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkForWinInColumns(board,3,oMove,0,0);
+        boolean result = sut.checkForWinInColumns(board, 3, oMove, 0, 0);
         //Then
         Assertions.assertTrue(result);
 
@@ -196,7 +200,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'o';
         board[2][1] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkForWinInColumns(board,3,oMove,0,1);
+        boolean result = sut.checkForWinInColumns(board, 3, oMove, 0, 1);
         //Then
         Assertions.assertTrue(result);
     }
@@ -210,7 +214,7 @@ class TicTacToeApplicationTests {
         board[1][2] = 'o';
         board[2][2] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkForWinInColumns(board,3,oMove,0,2);
+        boolean result = sut.checkForWinInColumns(board, 3, oMove, 0, 2);
         //Then
         Assertions.assertTrue(result);
     }
@@ -224,7 +228,7 @@ class TicTacToeApplicationTests {
         board[1][1] = 'o';
         board[2][2] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkForWinInFirstCross(board,3,oMove,0,0);
+        boolean result = sut.checkForWinInFirstCross(board, 3, oMove, 0, 0);
         //Then
         Assertions.assertTrue(result);
     }
@@ -238,57 +242,23 @@ class TicTacToeApplicationTests {
         board[1][1] = 'o';
         board[2][0] = 'o';
         //When
-        boolean result = ticTacToeLogic.checkForWinInSecondCross(board,3,oMove,0,2);
+        boolean result = sut.checkForWinInSecondCross(board, 3, oMove, 0, 2);
         //Then
         Assertions.assertTrue(result);
     }
 
     @Test
     void shouldBeDrawOn3x3Board() {
+        when(ticTacToeGameStateMock.getBoardSize()).thenReturn(3);
+        when(ticTacToeGameStateMock.getCurrentRound()).thenReturn(9);
         //when
-        boolean result = ticTacToeLogic.checkForDraw(3, 9);
+        boolean result = sut.checkForDraw();
         //then
         Assertions.assertTrue(result);
 
 
     }
-
-    @Test
-    void shouldThrowInputMissMatch() {
-        //given
-        int boardSize = 1;
-        TicTacToePlayerChoiceValidator ticTacToeMoveValidator = Mockito.mock(TicTacToePlayerChoiceValidator.class);
-        //when
-        when(ticTacToeMoveValidator.getNextMoveOnY(boardSize)).thenThrow(new InputMismatchException());
-        //then
-        Assertions.assertThrows(InputMismatchException.class, () -> ticTacToeMoveValidator.getNextMoveOnY(1));
-    }
-
-    @Test
-    public void visualTest() {
-        TicTacToeGameState gameStateMock = Mockito.mock(TicTacToeGameState.class);
-        //given
-        char[][] board2 = new char[3][3];
-        when(gameStateMock.printCurrentStateOfBoard()).thenReturn(board2);
-        //when
-        char[][] expectedBoard = gameStateMock.printCurrentStateOfBoard();
-        board2[0][0] = 'X';
-        board2[1][1] = 'O';
-        board2[2][2] = 'X';
-        //then
-        for (int i = 0; i < expectedBoard.length; i++) {
-            for (int j = 0; j < expectedBoard[i].length; j++) {
-                System.out.print("|" + expectedBoard[i][j] + "|");
-            }
-            System.out.println();
-        }
-        Assertions.assertArrayEquals(board2, expectedBoard);
-    }
-
-    TicTacToeGameState ticTacToeGameStateMock = Mockito.mock(TicTacToeGameState.class);
-    TicTacToeLogic ticTacToeLogic = new TicTacToeLogic();
-    TicTacToeData ticTacToeData = new TicTacToeData();
-
 }
+
 
 

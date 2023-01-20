@@ -1,35 +1,23 @@
 package com.example.tictactoe;
 
 public class TicTacToeMenu {
+    TicTacToeGameState ticTacToeGameState;
     TicTacToePlayerChoiceValidator ticTacToePlayerChoiceValidator = new TicTacToePlayerChoiceValidator();
+
+    public TicTacToeMenu(TicTacToeGameState ticTacToeGameState) {
+        this.ticTacToeGameState = ticTacToeGameState;
+    }
+
     private int chosenGameMode;
     private int chosenBoardSize;
-
-    public int getChosenGameMode() {
-        return chosenGameMode;
-    }
-
-    public void setChosenGameMode(int chosenGameMode) {
-        this.chosenGameMode = chosenGameMode;
-    }
 
     public void choiceMenuBetweenComputerOrPlayer() {
         System.out.println("choice mode you would like to play: ");
         System.out.println("1. vs player");
         System.out.println("2. vs computer");
         chosenGameMode = ticTacToePlayerChoiceValidator.validateMenuChoice();
-        setChosenGameMode(chosenGameMode);
+        ticTacToeGameState.setChosenGameMode(chosenGameMode);
     }
-
-
-    public void setChosenBoardSize(int chosenBoardSize) {
-        this.chosenBoardSize = chosenBoardSize;
-    }
-
-    public int getChosenBoardSize() {
-        return chosenBoardSize;
-    }
-
     public void gameInstructions() {
         System.out.println("Make moves on rows and columns");
         System.out.println("Each box has hes own coordinates");
@@ -53,23 +41,11 @@ public class TicTacToeMenu {
         System.out.println("1. 3x3");
         System.out.println("2. 10x10");
         chosenBoardSize = ticTacToePlayerChoiceValidator.validateMenuChoice();
-        setChosenBoardSize(chosenBoardSize);
+        ticTacToeGameState.setBoardSize(chosenBoardSize);
     }
 
 
-    public char[][] ticTacToeBoard(char[][] board, int boardSize) {
-        for (int i = 0; i <= boardSize - 1; i++) {
-            for (int j = 0; j <= boardSize - 1; j++) {
-                if (board[i][j] != 'O' && board[i][j] != 'X') {
-                    System.out.print("|" + ' ');
-                } else {
-                    System.out.print("|" + board[i][j]);
-                }
-            }
-            System.out.println("|");
-        }
-        return board;
-    }
+
 
 
 }

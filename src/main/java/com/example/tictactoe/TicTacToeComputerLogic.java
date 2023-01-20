@@ -6,34 +6,40 @@ import java.util.List;
 import java.util.Random;
 
 public class TicTacToeComputerLogic {
+    TicTacToeGameState ticTacToeGameState;
+    TicTacToeLogic ticTacToeLogic;
+    public TicTacToeComputerLogic(TicTacToeGameState ticTacToeGameState,TicTacToeLogic ticTacToeLogic) {
+        this.ticTacToeGameState = ticTacToeGameState;
+        this.ticTacToeLogic = ticTacToeLogic;
+    }
+
     Random rnd = new Random();
-    private int computerMoveX;
-    private int computerMoveY;
 
-    public int getComputerMoveX() {
-        return computerMoveX;
-    }
-
-    public int getComputerMoveY() {
-        return computerMoveY;
-    }
-
-    public void computerMove(char[][] board, int boardSize) {
+    public int[] computerMove() {
+        int[] move = null;
         List<int[]> emptyFields = new ArrayList<>();
-        for (int i = 0; i <= boardSize - 1; i++) {
-            for (int j = 0; j <= boardSize - 1; j++) {
-                if (board[i][j] != 'X' && board[i][j] != 'O') {
+        for (int i = 0; i <= ticTacToeGameState.getBoardSize() - 1; i++) {
+            for (int j = 0; j <= ticTacToeGameState.getBoardSize() - 1; j++) {
+                if (ticTacToeGameState.getBoard()[i][j] != 'X' && ticTacToeGameState.getBoard()[i][j] != 'O') {
                     emptyFields.add(new int[]{i, j});
                 }
             }
         }
         if (emptyFields.size() > 0) {
-            int[] move = emptyFields.get(rnd.nextInt(emptyFields.size()));
-            computerMoveX = move[0];
-            computerMoveY = move[1];
+             move = emptyFields.get(rnd.nextInt(emptyFields.size()));
+            ticTacToeGameState.setMoveOnX(move[0]);
+            ticTacToeGameState.setMoveOnY(move[1]);
         }
         emptyFields.clear();
-
+    return move;
     }
-
+     public void manageComputerMoves(){
+        computerMove();
+        ticTacToeLogic.playMove(
+                ticTacToeGameState.getMoveOnX(),
+                ticTacToeGameState.getMoveOnY(),
+                ticTacToeLogic.currentMove(),
+                ticTacToeGameState.getBoard());
+        ticTacToeLogic.checkIfSomeOneWon();
+    }
 }

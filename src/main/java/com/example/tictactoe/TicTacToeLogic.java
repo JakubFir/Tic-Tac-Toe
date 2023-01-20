@@ -3,24 +3,22 @@ package com.example.tictactoe;
 import java.util.Random;
 
 public class TicTacToeLogic {
+    TicTacToeGameState ticTacToeGameState = new TicTacToeGameState();
+
+    public TicTacToeLogic(TicTacToeGameState ticTacToeGameState) {
+        this.ticTacToeGameState = ticTacToeGameState;
+    }
 
     private char move;
     private boolean xTurn;
     private boolean oTurn;
     private boolean endGame;
-    private int currentRound;
-
-    public void setCurrentRound(int currentRound) {
-        this.currentRound = currentRound;
-    }
+    private int currentRound = 0;
 
     public boolean isEndGame() {
         return endGame;
     }
 
-    public char getMove() {
-        return move;
-    }
 
     public int getCurrentRound() {
         return this.currentRound;
@@ -58,37 +56,44 @@ public class TicTacToeLogic {
 
     public void playMove(int x, int y, char move, char[][] board) {
         board[x][y] = move;
-        setCurrentRound(getCurrentRound() + 1);
+        ticTacToeGameState.setCurrentRound(getCurrentRound() + 1);
     }
 
-    public boolean isFieldTaken(int x, int y, char[][] board) {
-        boolean isFieldTaken;
-        if (board[x][y] == 'X' || board[x][y] == 'O') {
-            System.out.println("field taken");
-            isFieldTaken = true;
-        } else {
-            isFieldTaken = false;
-        }
-        return isFieldTaken;
-    }
 
-    public boolean checkForDraw(int boardSize, int currentRound) {
+    public boolean checkForDraw() {
         boolean result = false;
-        if (boardSize == 3) {
-            if (currentRound == 9) {
+        if (ticTacToeGameState.getBoardSize() == 3) {
+            if (ticTacToeGameState.getCurrentRound() == 9) {
                 endGame = true;
                 System.out.println("draw");
                 result = true;
             }
         }
-        if (boardSize == 10) {
-            if (currentRound == 100) {
+        if (ticTacToeGameState.getBoardSize() == 10) {
+            if (ticTacToeGameState.getCurrentRound() == 100) {
                 endGame = true;
                 System.out.println("draw");
                 result = true;
             }
         }
         return result;
+    }
+
+    public void managePlayerMove() {
+        boolean fieldTaken;
+        do {
+            ticTacToeGameState.playerMoveOnX();
+            ticTacToeGameState.playerMoveOnY();
+            fieldTaken = ticTacToeGameState.isFieldTaken();
+            if (!fieldTaken) {
+                playMove(
+                        ticTacToeGameState.getMoveOnX(),
+                        ticTacToeGameState.getMoveOnY(),
+                        currentMove(),
+                        ticTacToeGameState.getBoard());
+                fieldTaken = false;
+            }
+        } while (fieldTaken);
     }
 
     public boolean checkForWinInRows(char[][] board, int boardSize, char move, int x, int y) {
@@ -168,7 +173,7 @@ public class TicTacToeLogic {
     }
 
 
-    public boolean checkIfSomeOneWon(TicTacToeGameState ticTacToeGameState) {
+    public boolean checkIfSomeOneWon() {
         if (ticTacToeGameState.getMoveOnX() == ticTacToeGameState.getMoveOnY()) {
             if (checkForWinInFirstCross(ticTacToeGameState.getBoard(),
                     ticTacToeGameState.getBoardSize(),
